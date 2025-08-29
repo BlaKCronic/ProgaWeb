@@ -1,0 +1,105 @@
+/* Estilo profesional para investigaciones.html */
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f8f9fa;
+    margin: 0;
+    padding: 0;
+    color: #2c3e50;
+}
+header {
+    background: #fff;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+    padding: 20px 0 10px 0;
+}
+header h1 {
+    text-align: center;
+    color: #b03a5b;
+    font-size: 2.2rem;
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+}
+header nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    padding: 0;
+    margin: 0;
+}
+header nav ul li a {
+    text-decoration: none;
+    color: rgb(236, 149, 164);
+    font-weight: bold;
+    font-size: 1.1rem;
+    padding: 12px 20px;
+    transition: color 0.2s;
+    position: relative;
+}
+header nav ul li a::before,
+header nav ul li a::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    width: 0;
+    height: 2px;
+    background: rgb(236, 149, 164);
+    transition: width 0.3s cubic-bezier(.4,0,.2,1);
+    top: 80%;
+}
+header nav ul li a::before {
+    transform: translateX(-100%);
+}
+header nav ul li a::after {
+    transform: translateX(0%);
+}
+header nav ul li a:hover,
+header nav ul li a:focus {
+    color: #b03a5b;
+}
+header nav ul li a:hover::before,
+header nav ul li a:focus::before,
+header nav ul li a:hover::after,
+header nav ul li a:focus::after {
+    width: 50%;
+}
+main {
+    max-width: 900px;
+    margin: 40px auto 0 auto;
+    padding: 30px 20px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+h2 {
+    color: #b03a5b;
+    font-size: 1.5rem;
+    margin-top: 30px;
+    margin-bottom: 15px;
+    letter-spacing: 1px;
+}
+section ul {
+    list-style: disc inside;
+    padding-left: 0;
+    margin-bottom: 20px;
+}
+section ul li {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+    color: #2c3e50;
+}
+section ul li a {
+    color: #b03a5b;
+    text-decoration: none;
+    font-weight: 500;
+    transition: text-decoration 0.2s, color 0.2s;
+}
+section ul li a:hover {
+    text-decoration: underline;
+    color: #e1708a;
+}
+footer {
+    background: #fff;
+    border-top: 1px solid #eee;
+    padding: 25px 0 10px 0;
+    margin-top: 40px;
+}

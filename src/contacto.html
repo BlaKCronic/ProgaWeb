@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Contacto de los investigadores">
+    <meta name="author" content="Christian">
+    <meta name="keywords" content="Christian, Progra WEB, Contacto, Investigadores">
+    <title>Contacto</title>
+    <style>
+        @import url('styles/contacto.css');
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="miembros.html">Miembros</a></li>
+            <li><a href="investigaciones.html">Investigaciones</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
+        </ul>
+    </nav>
+    </header>
+    <main>
+        <h1>Contacto</h1>
+        <h3>Red de investigadores del TecNm</h3>
+        <p>
+            Tel: <a href="tel:+524613434260"> 461 343 4260 </a> <br />
+            Email: <a href="mailto:22030935@itcelaya.edu.mx">22030935@itcelaya.edu.mx</a>
+        </p>
+        <form action="enviarmensaje.html" method="get">
+            <label for="nombre">
+                Escriba su nombre:
+            </label>
+            <input type="text" name="nombre" minlength="3" maxlength="50">
+            <label>
+                <select name="tipo">
+                    <option value="comentario">Comentario</option>
+                    <option value="queja">Queja</option>
+                    <option value="inscripcion">Inscripción</option>
+                </select>
+                <label for="mensaje"><br>
+                    Escriba su mensaje:
+                </label>
+                <textarea name="mensaje" cols="30" rows="5" minlength="10" maxlength="300"></textarea>
+            </label>
+            <input type="submit" value="Enviar" name="enviar">
+        </form>
+    </main>
+    <footer>
+
+    </footer>
+</body>
+</html>
