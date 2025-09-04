@@ -46,3 +46,104 @@ footer .text-center {
   font-size: 0.95rem;
   letter-spacing: 0.03em;
 }
+
+.social-sprites {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: flex-start;
+  position: static;
+  transform: none;
+}
+.social-sprites li {
+  list-style: none;
+}
+.social-sprites li a {
+  display: block;
+  position: relative;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  font-size: 20px;
+  text-align: center;
+  text-decoration: none;
+  color: #404040;
+  margin: 0 6px;
+  transition: .5s;
+}
+.social-sprites li a span {
+  position: absolute;
+  transition: transform .5s;
+}
+.social-sprites li a span:nth-child(1),
+.social-sprites li a span:nth-child(3){
+  width: 100%;
+  height: 2px;
+  background: #404040;
+}
+.social-sprites li a span:nth-child(1) {
+  top: 0;
+  left: 0;
+  transform-origin: right;
+}
+.social-sprites li a:hover span:nth-child(1) {
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .5s;
+}
+.social-sprites li a span:nth-child(3) {
+  bottom: 0;
+  left: 0;
+  transform-origin: left;
+}
+.social-sprites li a:hover span:nth-child(3) {
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform .5s;
+}
+.social-sprites li a span:nth-child(2),
+.social-sprites li a span:nth-child(4){
+  width: 2px;
+  height: 100%;
+  background: #404040;
+}
+.social-sprites li a span:nth-child(2) {
+  top: 0;
+  left: 0;
+  transform: scale(0);
+  transform-origin: bottom;
+}
+.social-sprites li a:hover span:nth-child(2) {
+  transform: scale(1);
+  transform-origin: top;
+  transition: transform .5s;
+}
+.social-sprites li a span:nth-child(4) {
+  top: 0;
+  right: 0;
+  transform: scale(0);
+  transform-origin: top;
+}
+.social-sprites li a:hover span:nth-child(4) {
+  transform: scale(1);
+  transform-origin: bottom;
+  transition: transform .5s;
+}
+.social-sprites .facebook:hover {
+  color: #3b5998;
+}
+.social-sprites .facebook:hover span { 
+  background: #3b5998;
+}
+.social-sprites .twitter:hover {
+  color: #1da1f2;
+}
+.social-sprites .twitter:hover span { 
+  background: #1da1f2;
+}
+.social-sprites .instagram:hover {
+  color: #c32aa3;
+}
+.social-sprites .instagram:hover span { 
+  background: #c32aa3;
+}
