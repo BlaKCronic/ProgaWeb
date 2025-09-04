@@ -1,3 +1,10 @@
+.raleway-custom {
+  font-family: "Raleway", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
 footer {
   margin-top: 2rem;
   font-size: 1rem;
