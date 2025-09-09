@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Miembros | Red de investigación</title>
+  <title>Contacto | Red de investigación</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="styles/main.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -18,7 +18,7 @@
 <body>
   <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top">
     <div class="container">
-      <a class="navbar-brand" href="index.html">
+      <a class="navbar-brand" href="index.php">
         <img src="img/logos/logo-main.png" height="60" alt="Logo">
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -26,45 +26,45 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
-          <li class="nav-item"><a class="nav-link" href="investigaciones.html">Investigaciones</a></li>
-          <li class="nav-item"><a class="nav-link active" href="miembros.html">Miembros</a></li>
-          <li class="nav-item"><a class="nav-link" href="contacto.html">Contacto</a></li>
+          <li class="nav-item"><a class="nav-link" href="index.php">Inicio</a></li>
+          <li class="nav-item"><a class="nav-link" href="investigaciones.php">Investigaciones</a></li>
+          <li class="nav-item"><a class="nav-link" href="miembros.php">Miembros</a></li>
+          <li class="nav-item"><a class="nav-link active" href="contacto.php">Contacto</a></li>
         </ul>
       </div>
     </div>
   </nav>
 
   <main class="container my-5">
-    <h2 class="mb-4 text-center">Miembros de la Red</h2>
-    <div class="row g-4 justify-content-center">
-      <div class="col-md-4">
-        <div class="card h-100 text-center">
-          <img src="img/investigadores/1.jpg" class="card-img-top rounded-circle mx-auto mt-3" style="width:120px;height:120px;object-fit:cover;" alt="Miembro 1">
+    <h2 class="mb-4 text-center">Contáctanos</h2>
+    <div class="row justify-content-center">
+      <div class="col-md-8">
+        <div class="card shadow">
           <div class="card-body">
-            <h5 class="card-title">Dra. Ana Martínez</h5>
-            <p class="card-text">Especialista en Inteligencia Artificial y aprendizaje automático. Líder del proyecto de IA en medicina.</p>
-            <a href="mailto:ana.martinez@redinvestigacion.com" class="btn btn-outline-primary btn-sm">Contactar</a>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card h-100 text-center">
-          <img src="img/investigadores/2.jpg" class="card-img-top rounded-circle mx-auto mt-3" style="width:120px;height:120px;object-fit:cover;" alt="Miembro 2">
-          <div class="card-body">
-            <h5 class="card-title">Dr. Luis Gómez</h5>
-            <p class="card-text">Experto en visión por computador y procesamiento de imágenes. Coordinador de proyectos agrícolas.</p>
-            <a href="mailto:luis.gomez@redinvestigacion.com" class="btn btn-outline-primary btn-sm">Contactar</a>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-4">
-        <div class="card h-100 text-center">
-          <img src="img/investigadores/3.jpeg" class="card-img-top rounded-circle mx-auto mt-3" style="width:120px;height:120px;object-fit:cover;" alt="Miembro 3">
-          <div class="card-body">
-            <h5 class="card-title">Mtra. Sofía Ruiz</h5>
-            <p class="card-text">Ingeniera en robótica y automatización industrial. Responsable de la integración de robots colaborativos.</p>
-            <a href="mailto:sofia.ruiz@redinvestigacion.com" class="btn btn-outline-primary btn-sm">Contactar</a>
+            <form>
+              <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre</label>
+                <input type="text" class="form-control" id="nombre" placeholder="Tu nombre">
+              </div>
+              <div class="mb-3">
+                <label for="correo" class="form-label">Correo electrónico</label>
+                <input type="email" class="form-control" id="correo" placeholder="Tu correo">
+              </div>
+              <div class="mb-3">
+                <label for="tipo" class="form-label">Motivo de contacto</label>
+                <select class="form-select" id="tipo">
+                  <option value="formarparte">Formar parte de la red</option>
+                  <option value="duda">Duda</option>
+                  <option value="aportacion">Aportación</option>
+                  <option value="queja">Queja</option>
+                </select>
+              </div>
+              <div class="mb-3">
+                <label for="mensaje" class="form-label">Mensaje</label>
+                <textarea class="form-control" id="mensaje" rows="4" placeholder="Escribe tu mensaje"></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary">Enviar mensaje</button>
+            </form>
           </div>
         </div>
       </div>
@@ -76,8 +76,8 @@
         <div class="col mb-3">
           <h6>Acerca de</h6>
           <ul class="list-unstyled">
-            <li><a href="acercade_quienes_somos.html">Quiénes somos</a></li>
-            <li><a href="acercade_historia.html">Historia</a></li>
+            <li><a href="acercade_quienes_somos.php">Quiénes somos</a></li>
+            <li><a href="acercade_historia.php">Historia</a></li>
             <li><a href="#">Aviso de privacidad</a></li>
           </ul>
         </div>

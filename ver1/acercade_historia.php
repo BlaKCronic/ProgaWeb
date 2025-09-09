@@ -22,7 +22,7 @@
 <body>
   <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top">
     <div class="container">
-      <a class="navbar-brand" href="index.html">
+      <a class="navbar-brand" href="index.php">
         <img src="img/logos/logo-main.png" height="60" alt="Logo">
       </a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -30,10 +30,10 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
-          <li class="nav-item"><a class="nav-link" href="investigaciones.html">Investigaciones</a></li>
-          <li class="nav-item"><a class="nav-link" href="miembros.html">Miembros</a></li>
-          <li class="nav-item"><a class="nav-link" href="contacto.html">Contacto</a></li>
+          <li class="nav-item"><a class="nav-link" href="index.php">Inicio</a></li>
+          <li class="nav-item"><a class="nav-link" href="investigaciones.php">Investigaciones</a></li>
+          <li class="nav-item"><a class="nav-link" href="miembros.php">Miembros</a></li>
+          <li class="nav-item"><a class="nav-link" href="contacto.php">Contacto</a></li>
         </ul>
       </div>
     </div>
@@ -174,8 +174,8 @@
         <div class="col mb-3">
           <h6>Acerca de</h6>
           <ul class="list-unstyled">
-            <li><a href="acercade_quienes_somos.html">Quiénes somos</a></li>
-            <li><a href="acercade_historia.html">Historia</a></li>
+            <li><a href="acercade_quienes_somos.php">Quiénes somos</a></li>
+            <li><a href="acercade_historia.php">Historia</a></li>
             <li><a href="#">Aviso de privacidad</a></li>
           </ul>
         </div>
