@@ -1,44 +1,6 @@
-<!DOCTYPE html>
-<html lang="es">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Red de investigación | Historia</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-  <link rel="stylesheet" href="styles/main.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link href="https://fonts.googleapis.com/css?family=Raleway:400,700&display=swap" rel="stylesheet">
-  <style>
-    body {
-      font-family: 'Raleway', Arial, Helvetica, sans-serif;
-      background: #f4f6f8;
-    }
-    
-  </style>
-</head>
-
-<body>
-  <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top">
-    <div class="container">
-      <a class="navbar-brand" href="index.php">
-        <img src="img/logos/logo-main.png" height="60" alt="Logo">
-      </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link" href="index.php">Inicio</a></li>
-          <li class="nav-item"><a class="nav-link" href="investigaciones.php">Investigaciones</a></li>
-          <li class="nav-item"><a class="nav-link" href="miembros.php">Miembros</a></li>
-          <li class="nav-item"><a class="nav-link" href="contacto.php">Contacto</a></li>
-        </ul>
-      </div>
-    </div>
-  </nav>
-
+<?php
+include_once("views/header.php");
+?>
   <div class="hero-section">
     <div class="container">
       <div class="row">
@@ -168,54 +130,6 @@
     </div>
   </main>
 
-  <footer class="mt-5">
-    <div class="container py-4">
-      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4">
-        <div class="col mb-3">
-          <h6>Acerca de</h6>
-          <ul class="list-unstyled">
-            <li><a href="acercade_quienes_somos.php">Quiénes somos</a></li>
-            <li><a href="acercade_historia.php">Historia</a></li>
-            <li><a href="#">Aviso de privacidad</a></li>
-          </ul>
-        </div>
-        <div class="col mb-3">
-          <h6>Ayuda</h6>
-          <ul class="list-unstyled">
-            <li><a href="#">Preguntas frecuentes</a></li>
-            <li><a href="#">Contacto</a></li>
-            <li><a href="#">Soporte técnico</a></li>
-          </ul>
-        </div>
-        <div class="col mb-3">
-          <h6>Síguenos</h6>
-          <ul class="social-sprites">
-            <li>
-              <a class="facebook" href="#"><span></span><span></span><span></span><span></span><i class="fa fa-facebook"></i></a>
-            </li>
-            <li>
-              <a class="twitter" href="#"><span></span><span></span><span></span><span></span><i class="fa fa-twitter"></i></a>
-            </li>
-            <li>
-              <a class="instagram" href="#"><span></span><span></span><span></span><span></span><i class="fa fa-instagram"></i></a>
-            </li>
-          </ul>
-        </div>
-        <div class="col mb-3">
-          <h6>Contacto</h6>
-          <ul class="list-unstyled">
-            <li>Celaya, Guanajuato, México</li>
-            <li>contacto@redinvestigacion.com</li>
-            <li>+52 461 227 9093</li>
-          </ul>
-        </div>
-      </div>
-      <div class="text-center py-3">
-        © 2025 Red de investigación. Todos los derechos reservados.
-      </div>
-    </div>
-  </footer>
-
-</body>
-
-</html>
+ <?php
+include_once("views/footer.php");
+?>
