@@ -2,6 +2,13 @@
 require_once "sistema.php";
 class Institucion extends Sistema{
     function create($date){
+        $this -> conect();
+        $sql = ("insert into institucion(institucion, logotipo) values (:institucion, :logotipo);");
+        $sth = $this -> _BD -> prepare($sql);
+        $sth -> bindParam(":institucion", $data['institucion'], PDO::PARAM_STR);
+        $sth -> bindParam(":logotipo", $data['logotipo'], PDO::PARAM_STR);
+        $sth -> execute();
+        $rows_affected = $sth -> rowCount();
         return $rows_affected;
     }
 
