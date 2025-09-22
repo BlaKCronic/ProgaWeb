@@ -22,7 +22,17 @@ class Institucion extends Sistema{
     }
 
     function delete($id){
-        return $rows_affected;
+        if(!is_numeric($id)){
+            $this -> conect();
+            $sth = "DELETE FROM institucion WHERE id_institucion = :id_institucion";
+            $sth = $this -> _BD -> prepare($sql);
+            $sth -> bindParam(':id_institucion', $id, PDO::PARAM_INT);
+            $sth -> execute();
+            $rows_affected = $sth -> rowCount();
+            return $rows_affected;
+        } else {
+            return null;
+        }
     }
 }
 ?>
