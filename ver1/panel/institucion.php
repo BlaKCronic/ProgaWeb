@@ -28,7 +28,7 @@ switch ($action){
     case 'read':
     default:
         $data = $app -> read();
-        include_once "../views/institucion/index.php";
+        include_once "./views/institucion/index.php";
         break;
 }
 ?>
