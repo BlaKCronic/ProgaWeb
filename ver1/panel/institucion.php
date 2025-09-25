@@ -3,6 +3,7 @@ require_once "../models/institucion.php";
 $app = new Institucion();
 $action = isset($_GET['action']) ? $_GET['action'] : 'read';
 $data = array();
+include_once "./views/header.php";
 switch ($action){
     case 'create':
         $data['institucion'] = $_POST['institucion'];
@@ -20,9 +21,12 @@ switch ($action){
         break;
 
     case 'delete':
-        $id = $_GET['id_institucion'];
-        $filas = $app -> delete($id);
-        echo $filas;
+        if (isset($_GET['id'])) {
+            $id = $_GET['id'];
+            $filas = $app -> delete($id);
+        }
+        $data = $app -> read();
+        include_once "./views/institucion/index.php";
         break;
     
     case 'read':
@@ -31,4 +35,5 @@ switch ($action){
         include_once "./views/institucion/index.php";
         break;
 }
+include_once "./views/footer.php";
 ?>
