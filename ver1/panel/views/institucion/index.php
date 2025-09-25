@@ -1,6 +1,6 @@
 <h1>Instituciones</h1>
 <div class="btn-group" role="group" aria-label="Basic example">
-    <a class="btn btn-success">Nuevo</a>
+    <a href="institucion.php?action=create" class="btn btn-success">Nuevo</a>
     <a class="btn btn-primary">Imprimir</a>
 </div>
 <table class="table">
@@ -20,7 +20,7 @@
             <td><?php echo $institucion['institucion'] ?></td>
             <td>
                 <div class="btn-group" role="group" aria-label="Basic example">
-                    <a class="btn btn-warning">Editar</a>
+                    <a href ="institucion.php?action=update&id=<?php echo $institucion['id_institucion'] ?>" class="btn btn-warning">Editar</a>
                     <a href ="institucion.php?action=delete&id=<?php echo $institucion['id_institucion'] ?>" class="btn btn-danger">Eliminar</a>
                 </div>
             </td>

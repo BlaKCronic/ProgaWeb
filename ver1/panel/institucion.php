@@ -6,34 +6,48 @@ $data = array();
 include_once "./views/header.php";
 switch ($action){
     case 'create':
-        $data['institucion'] = $_POST['institucion'];
-        $data['logotipo'] = $_POST['logotipo'];
-        $filas = $app -> create($data);
-        echo $filas;
+        if (isset($_POST['enviar'])) {
+            $data['institucion'] = $_POST['institucion'];
+            $data['logotipo'] = $_POST['logotipo'];
+            $filas = $app -> create($data);
+            $data = $app -> read();
+            include_once "views/institucion/index.php";
+        }
+        else {
+            include_once "views/institucion/_form.php";
+        }
         break;
     
     case 'update':
-        $data['institucion'] = $_POST['institucion'];
-        $data['logotipo'] = $_POST['logotipo'];
-        $id = $_POST['id_institucion'];
-        $filas = $app -> update($data, $id);
-        echo $filas;
+        if (isset($_POST['enviar'])) {
+            $id = $_POST['id_institucion'];
+            $data ['institucion'] = $_POST['institucion'];
+            $data ['logotipo'] = $_POST['logotipo'];
+            $row = $app -> update($data, $id);
+            $data = $app -> read();
+            include_once "views/institucion/index.php";
+        }
+        else {
+            $id_institucion = $_GET['id_institucion'];
+            $data = $app -> readOne($id_institucion);
+            include_once "views/institucion/_form_update.php";
+        }
         break;
 
     case 'delete':
-        if (isset($_GET['id'])) {
-            $id = $_GET['id'];
+        if (isset($_GET['id_institucion'])) {
+            $id = $_GET['id_institucion'];
             $filas = $app -> delete($id);
         }
         $data = $app -> read();
-        include_once "./views/institucion/index.php";
+        include_once "views/institucion/index.php";
         break;
     
     case 'read':
     default:
         $data = $app -> read();
-        include_once "./views/institucion/index.php";
+        include_once "views/institucion/index.php";
         break;
 }
-include_once "./views/footer.php";
+include_once "views/footer.php";
 ?>
