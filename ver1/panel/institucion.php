@@ -28,15 +28,15 @@ switch ($action){
             include_once "views/institucion/index.php";
         }
         else {
-            $id_institucion = $_GET['id_institucion'];
+            $id_institucion = $_GET['id'];
             $data = $app -> readOne($id_institucion);
             include_once "views/institucion/_form_update.php";
         }
         break;
 
     case 'delete':
-        if (isset($_GET['id_institucion'])) {
-            $id = $_GET['id_institucion'];
+        if (isset($_GET['id'])) {
+            $id = $_GET['id'];
             $filas = $app -> delete($id);
         }
         $data = $app -> read();
