@@ -19,7 +19,11 @@ class Investigador extends Sistema{
 
     function read(){
         $this->conect();
-        $sth = $this->_BD->prepare("SELECT * FROM investigador");
+        $sql = "SELECT inv.*, i.institucion, t.tratamiento 
+                FROM investigador inv 
+                LEFT JOIN institucion i ON inv.id_institucion = i.id_institucion 
+                LEFT JOIN tratamiento t ON inv.id_tratamiento = t.id_tratamiento";
+        $sth = $this->_BD->prepare($sql);
         $sth->execute();
         $data = $sth->fetchAll(PDO::FETCH_ASSOC);
         return $data;
@@ -27,7 +31,12 @@ class Investigador extends Sistema{
 
     function readOne($id){
         $this->conect();
-        $sth = $this->_BD->prepare("SELECT * FROM investigador WHERE id_investigador = :id_investigador");
+        $sql = "SELECT inv.*, i.institucion, t.tratamiento 
+                FROM investigador inv 
+                LEFT JOIN institucion i ON inv.id_institucion = i.id_institucion 
+                LEFT JOIN tratamiento t ON inv.id_tratamiento = t.id_tratamiento 
+                WHERE inv.id_investigador = :id_investigador";
+        $sth = $this->_BD->prepare($sql);
         $sth->bindParam(":id_investigador", $id, PDO::PARAM_INT);
         $sth->execute();
         $data = $sth->fetch(PDO::FETCH_ASSOC);
