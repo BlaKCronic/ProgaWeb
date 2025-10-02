@@ -1,6 +1,6 @@
-<h1>Instituciones</h1>
+<h1>Tratamiento</h1>
 <div class="btn-group" role="group" aria-label="Basic example">
-    <a href="institucion.php?action=create" class="btn btn-success">Nuevo</a>
+    <a href="tratamiento.php?action=create" class="btn btn-success">Nuevo</a>
     <a class="btn btn-primary">Imprimir</a>
 </div>
 <table class="table">
