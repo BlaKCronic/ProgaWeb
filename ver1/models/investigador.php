@@ -3,7 +3,8 @@ require_once "sistema.php";
 class Investigador extends Sistema{
     function create($data){
         $this -> conect();
-        $sth = $this -> _BD -> prepare("insert into investigador (primer_apellido, segundo_apellido, nombre, fotografia, id_institucion, semblanza, id_tratamiento) values (:primer_apellido, :segundo_apellido, :nombre, :fotografia, :id_institucion, :semblanza, :id_tratamiento)");
+        $sth = $this -> _BD -> prepare("insert into investigador (primer_apellido, segundo_apellido, nombre, fotografia, id_institucion, semblanza, id_tratamiento) 
+        values (:primer_apellido, :segundo_apellido, :nombre, :fotografia, :id_institucion, :semblanza, :id_tratamiento)");
         $sth -> bindParam(":primer_apellido", $data['primer_apellido']);
         $sth -> bindParam(":segundo_apellido", $data['segundo_apellido']);
         $sth -> bindParam(":nombre", $data['nombre']);

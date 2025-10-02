@@ -26,10 +26,12 @@
             <td><?php echo $investigador['nombre'] ?></td>
             <td><img src="../img/investigador/<?php echo $investigador['fotografia'] ?>" class="rounded-circle" alt="imagen redondeada" width="75"></td>
             <td><?php echo $investigador['institucion'] ?></td>
+            <td><?php echo $investigador['semblanza'] ?></td>
+            <td><?php echo $investigador['tratamiento'] ?></td>
             <td>
                 <div class="btn-group" role="group" aria-label="Basic example">
-                    <a href ="investigador.php?action=update&id=<?php echo $institucion['id_investigador'] ?>" class="btn btn-warning">Editar</a>
-                    <a href ="investigador.php?action=delete&id=<?php echo $institucion['id_investigador'] ?>" class="btn btn-danger">Eliminar</a>
+                    <a href ="investigador.php?action=update&id=<?php echo $investigador['id_investigador'] ?>" class="btn btn-warning">Editar</a>
+                    <a href ="investigador.php?action=delete&id=<?php echo $investigador['id_investigador'] ?>" class="btn btn-danger">Eliminar</a>
                 </div>
             </td>
         </tr>
