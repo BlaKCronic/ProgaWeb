@@ -26,7 +26,7 @@
             <td><?php echo $investigador['nombre'] ?></td>
             <td><img src="../img/investigador/<?php echo $investigador['fotografia'] ?>" class="rounded-circle" alt="imagen redondeada" width="75"></td>
             <td><?php echo $investigador['institucion'] ?></td>
-            <td><?php echo $investigador['semblanza'] ?></td>
+            <td><?php echo substr($investigador['semblanza'], 0, 100) . '...' ?></td>
             <td><?php echo $investigador['tratamiento'] ?></td>
             <td>
                 <div class="btn-group" role="group" aria-label="Basic example">
