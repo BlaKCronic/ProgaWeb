@@ -17,16 +17,25 @@
         <input type="text" class="form-control" id="Fotografia" name="fotografia" placeholder="Fotografía" required>
     </div>
     <div class="mb-3">
-        <label for="Institucion" class="form-label">Institución</label>
-        <input type="text" class="form-control" id="Institucion" name="institucion" placeholder="Institución" required>
-    </div>
-    <div class="mb-3">
         <label for="Semblanza" class="form-label">Semblanza</label>
         <textarea class="form-control" id="Semblanza" name="semblanza" placeholder="Semblanza" required></textarea>
     </div>
     <div class="mb-3">
+        <label for="Institucion" class="form-label">Institución</label>
+        <select class="form-select" id="Institucion" name="institucion" required>
+            <option value="">Seleccione una institución</option>
+            <?php foreach ($instituciones as $institucion): ?>
+                <option value="<?php echo $institucion['id']; ?>"><?php echo $institucion['institucion']; ?></option>
+            <?php endforeach; ?>
+        </select>
+    </div>
+    <div class="mb-3">
         <label for="Tratamiento" class="form-label">Tratamiento</label>
-        <input type="text" class="form-control" id="Tratamiento" name="tratamiento" placeholder="Tratamiento" required>
+        <select class="form-select" id="Tratamiento" name="tratamiento" required>
+            <option value="">Seleccione un tratamiento</option>
+            <?php foreach ($tratamientos as $tratamiento): ?>
+                <option value="<?php echo $tratamiento['id']; ?>"><?php echo $tratamiento['tratamiento']; ?></option>
+            <?php endforeach; ?>
     </div>
     <div class="mb-3">
         <input type="submit" class="btn btn-success" id="Enviar" name="enviar" value="Guardar">

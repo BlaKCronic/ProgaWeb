@@ -1,6 +1,12 @@
 <?php
 require_once "../models/investigador.php";
+include_once "../models/institucion.php";
+include_once "../models/tratamiento.php";
 $app = new Investigador();
+$appInstitucion = new Institucion();
+$appTratamiento = new Tratamiento();
+$instituciones = $appInstitucion -> read();
+$tratamientos = $appTratamiento -> read();
 $action = isset($_GET['action']) ? $_GET['action'] : 'read';
 $data = array();
 include_once "./views/header.php";
