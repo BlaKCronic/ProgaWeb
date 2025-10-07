@@ -22,20 +22,21 @@
     </div>
     <div class="mb-3">
         <label for="Institucion" class="form-label">Institución</label>
-        <select class="form-select" id="Institucion" name="institucion" required>
+        <select class="form-select" id="Institucion" name="id_institucion" required>
             <option value="">Seleccione una institución</option>
             <?php foreach ($instituciones as $institucion): ?>
-                <option value="<?php echo $institucion['id']; ?>"><?php echo $institucion['institucion']; ?></option>
+                <option value="<?php echo $institucion['id_institucion']; ?>"><?php echo $institucion['institucion']; ?></option>
             <?php endforeach; ?>
         </select>
     </div>
     <div class="mb-3">
         <label for="Tratamiento" class="form-label">Tratamiento</label>
-        <select class="form-select" id="Tratamiento" name="tratamiento" required>
+        <select class="form-select" id="Tratamiento" name="id_tratamiento" required>
             <option value="">Seleccione un tratamiento</option>
             <?php foreach ($tratamientos as $tratamiento): ?>
-                <option value="<?php echo $tratamiento['id']; ?>"><?php echo $tratamiento['tratamiento']; ?></option>
+                <option value="<?php echo $tratamiento['id_tratamiento']; ?>"><?php echo $tratamiento['tratamiento']; ?></option>
             <?php endforeach; ?>
+        </select>
     </div>
     <div class="mb-3">
         <input type="submit" class="btn btn-success" id="Enviar" name="enviar" value="Guardar">
