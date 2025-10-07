@@ -1,5 +1,5 @@
 <h1> Modificar Investigador </h1>
-<form method = "POST" action = "investigador.php?action=update">
+<form method = "POST" enctype="multipart/form-data" action = "investigador.php?action=update">
     <input type="hidden" name="id_investigador" value="<?php echo $data['id_investigador']; ?>">
     <div class="mb-3">
         <label for="PrimerApellido" class="form-label">Primer Apellido</label>
@@ -15,7 +15,8 @@
     </div>
     <div class="mb-3">
         <label for="Fotografia" class="form-label">Fotografía</label>
-        <input type="text" class="form-control" id="Fotografia" name="fotografia" value="<?php echo $data['fotografia']; ?>" placeholder="Fotografía" required>
+        <input type="file" class="form-control" id="Fotografia" name="fotografia">
+        <small class="form-text text-muted">Fotografía actual: <?php echo $data['fotografia']; ?></small>
     </div>
     <div class="mb-3">
         <label for="Semblanza" class="form-label">Semblanza</label>

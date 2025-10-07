@@ -16,7 +16,6 @@ switch ($action){
             $data['primer_apellido'] = $_POST['primer_apellido'];
             $data['segundo_apellido'] = $_POST['segundo_apellido'];
             $data['nombre'] = $_POST['nombre'];
-            $data['fotografia'] = $_POST['fotografia'];
             $data['id_institucion'] = $_POST['id_institucion'];
             $data['semblanza'] = $_POST['semblanza'];
             $data['id_tratamiento'] = $_POST['id_tratamiento'];
@@ -36,7 +35,15 @@ switch ($action){
             $data['primer_apellido'] = $_POST['primer_apellido'];
             $data['segundo_apellido'] = $_POST['segundo_apellido'];
             $data['nombre'] = $_POST['nombre'];
-            $data['fotografia'] = $_POST['fotografia'];
+            
+            if(isset($_FILES['fotografia']) && $_FILES['fotografia']['error'] == 0){
+                $fotografia = $app->cargarFotografia('investigadores');
+                $data['fotografia'] = $fotografia;
+            } else {
+                $investigador_actual = $app->readOne($id);
+                $data['fotografia'] = $investigador_actual['fotografia'];
+            }
+            
             $data['id_institucion'] = $_POST['id_institucion'];
             $data['semblanza'] = $_POST['semblanza'];
             $data['id_tratamiento'] = $_POST['id_tratamiento'];
