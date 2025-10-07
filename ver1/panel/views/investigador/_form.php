@@ -1,5 +1,5 @@
 <h1> Nuevo Investigador </h1>
-<form method = "POST" action = "investigador.php?action=create">
+<form method = "POST" enctype="multipart/form-data" action = "investigador.php?action=create">
     <div class="mb-3">
         <label for="PrimerApellido" class="form-label">Primer Apellido</label>
         <input type="text" class="form-control" id="PrimerApellido" name="primer_apellido" placeholder="Primer Apellido" required>
@@ -14,7 +14,7 @@
     </div>
     <div class="mb-3">
         <label for="Fotografia" class="form-label">Fotografía</label>
-        <input type="text" class="form-control" id="Fotografia" name="fotografia" placeholder="Fotografía" required>
+        <input type="file" class="form-control" id="Fotografia" name="fotografia" placeholder="Fotografía" required>
     </div>
     <div class="mb-3">
         <label for="Semblanza" class="form-label">Semblanza</label>

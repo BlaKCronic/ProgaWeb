@@ -8,10 +8,11 @@ class Investigador extends Sistema{
         $sth -> bindParam(":primer_apellido", $data['primer_apellido']);
         $sth -> bindParam(":segundo_apellido", $data['segundo_apellido']);
         $sth -> bindParam(":nombre", $data['nombre']);
-        $sth -> bindParam(":fotografia", $data['fotografia']);
         $sth -> bindParam(":id_institucion", $data['id_institucion']);
         $sth -> bindParam(":semblanza", $data['semblanza']);
         $sth -> bindParam(":id_tratamiento", $data['id_tratamiento']);
+        $fotografia = $this -> cargarFotografia('investigadores');
+        $sth -> bindParam(":fotografia", $fotografia);
         $sth -> execute();
         $rows_affected = $sth -> rowCount();
         return $rows_affected;
