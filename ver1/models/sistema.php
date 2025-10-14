@@ -179,5 +179,60 @@ class Sistema{
             'allowed_extensions' => $this->allowed_extensions
         ];
     }
+
+    function login($correo, $contrasena){
+        $contrasena = md5($contrasena);
+        if (filter_var($correo, FILTER_VALIDATE_EMAIL)) {
+            $this -> conect();
+            $sql = "SELECT * FROM usuarios WHERE correo = :correo AND contrasena = :contrasena";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(":correo", $correo);
+            $stmt->bindParam(":contrasena", $contrasena);
+            $stmt->execute();
+            if($stmt -> rowCount() > 0){
+                $usuario = $stmt -> fetch(PDO::FETCH_ASSOC);
+                session_start();
+                $_SESSION['validado'] = true;
+                $_SESSION['correo'] = $correo;
+                $roles = $this getroles($correo);
+                $permisos = $this getpermisos($correo);
+                $_SESSION['roles'] = $roles;
+                $_SESSION['permisos'] = $permisos;
+                return true;
+            }
+        }
+    }
+
+    function logout(){
+        session_start();
+        $_SESSION = [];
+        session_destroy();
+    }
+
+    function getroles($correo){
+        $this -> conect();
+        $sql = "SELECT r.nombre FROM roles r
+                JOIN rol_privilegio ur ON r.id = ur.id_rol
+                JOIN usuarios u ON ur.id_usuario = u.id
+                WHERE u.correo = :correo";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(":correo", $correo);
+        $stmt->execute();
+        return $stmt -> fetchAll(PDO::FETCH_COLUMN);
+    }
+
+    function getpermisos($correo){
+        $this -> conect();
+        $sql = "SELECT p.nombre FROM permisos p
+                JOIN rol_permisos rp ON p.id = rp.id_permiso
+                JOIN roles r ON rp.id_rol = r.id
+                JOIN usuario_rol ur ON r.id = ur.id_rol
+                JOIN usuarios u ON ur.id_usuario = u.id
+                WHERE u.correo = :correo";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(":correo", $correo);
+        $stmt->execute();
+        return $stmt -> fetchAll(PDO::FETCH_COLUMN);
+    }
 }
 ?>
