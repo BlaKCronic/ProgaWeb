@@ -1,12 +1,17 @@
 <?php
 include_once("../models/sistema.php");
-include_once("login/header.php");
-include_once("login/footer.php");
 $sistema = new Sistema();
-$accion = isset($_POST['accion']) ? $_POST['accion'] : 'login';
+$accion = isset($_POST['accion']) ? $_POST['accion'] : (isset($_GET['accion']) ? $_GET['accion'] : 'login');
+
+include_once("views/login/header.php");
+
 switch ($accion) {
     case 'logout':
         $sistema->logout();
+        $alerta['mensaje'] = "Sesión cerrada correctamente";
+        $alerta['tipo'] = "success";
+        include_once("./views/alert.php");
+        include_once("./views/login/login.php");
         break;
     
     case 'login':
@@ -17,6 +22,7 @@ switch ($accion) {
             
             if ($login){
                 header("Location: index.php");
+                exit();
             } else {
                 $alerta['mensaje'] = "Correo o contraseña incorrectos";
                 $alerta['tipo'] = "danger";
@@ -31,6 +37,7 @@ switch ($accion) {
     default:
         include_once("./views/login/login.php");
         break;
-
 }
+
+include_once("views/login/footer.php");
 ?>
