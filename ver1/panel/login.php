@@ -10,8 +10,8 @@ switch ($accion) {
         $sistema->logout();
         $alerta['mensaje'] = "Sesión cerrada correctamente";
         $alerta['tipo'] = "success";
-        include_once("./views/alert.php");
-        include_once("./views/login/login.php");
+        include_once("views/alert.php");
+        include_once("views/login/login.php");
         break;
     
     case 'login':
@@ -26,16 +26,16 @@ switch ($accion) {
             } else {
                 $alerta['mensaje'] = "Correo o contraseña incorrectos";
                 $alerta['tipo'] = "danger";
-                include_once("./views/alert.php");
-                include_once("./views/login/login.php");
+                include_once("views/alert.php");
+                include_once("views/login/login.php");
             }
         } else {
-            include_once("./views/login/login.php");
+            include_once("views/login/login.php");
         }
         break;
 
     default:
-        include_once("./views/login/login.php");
+        include_once("views/login/login.php");
         break;
 }
 
