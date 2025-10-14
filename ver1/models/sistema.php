@@ -191,7 +191,6 @@ class Sistema{
             $stmt->execute();
             if($stmt -> rowCount() > 0){
                 $usuario = $stmt -> fetch(PDO::FETCH_ASSOC);
-                session_start();
                 $_SESSION['validado'] = true;
                 $_SESSION['correo'] = $correo;
                 $roles = $this getroles($correo);
@@ -205,7 +204,7 @@ class Sistema{
 
     function logout(){
         session_start();
-        $_SESSION = [];
+        unset($_SESSION);
         session_destroy();
     }
 

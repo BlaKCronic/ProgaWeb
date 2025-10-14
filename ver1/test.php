@@ -1,9 +1,11 @@
 <?php
-require_once "models/institucion.php";
-$app = new Institucion;
-//$filas_afectadas = $app -> delete(1);
-$data ['institucion'] = "Instituto Tecnologico de Tijuana";
-$data ['logotipo'] = "logotipo_prueba.png";
-$filas_afectadas = $app -> create($data);
-//print_r($filas_afectadas);
+session_start();
+require_once "models/sistema.php";
+$sistema = new Sistema();
+$login = $sistema -> login("22030935@itcelaya.edu.mx","123");
+if($login){
+    echo "Login exitoso";
+}else{
+    echo "Login fallido";
+}
 ?>
