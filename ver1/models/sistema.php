@@ -1,4 +1,5 @@
 <?php
+session_start();
 class Sistema{
     var $_DNS = "mysql:host=mariadb;dbname=database";
     var $_USER = "user";
