@@ -181,57 +181,61 @@ class Sistema{
     }
 
     function login($correo, $contrasena){
-        $contrasena = md5($contrasena);
-        if (filter_var($correo, FILTER_VALIDATE_EMAIL)) {
-            $this -> conect();
-            $sql = "SELECT * FROM usuarios WHERE correo = :correo AND contrasena = :contrasena";
-            $stmt = $this->db->prepare($sql);
-            $stmt->bindParam(":correo", $correo);
-            $stmt->bindParam(":contrasena", $contrasena);
-            $stmt->execute();
-            if($stmt -> rowCount() > 0){
-                $usuario = $stmt -> fetch(PDO::FETCH_ASSOC);
-                $_SESSION['validado'] = true;
-                $_SESSION['correo'] = $correo;
-                $roles = $this getroles($correo);
-                $permisos = $this getpermisos($correo);
-                $_SESSION['roles'] = $roles;
-                $_SESSION['permisos'] = $permisos;
-                return true;
-            }
+    $contrasena = md5($contrasena);
+    if (filter_var($correo, FILTER_VALIDATE_EMAIL)) {
+        $this->conect();
+        $sql = "SELECT * FROM usuario WHERE correo = :correo AND contrasena = :contrasena";
+        $stmt = $this->_BD->prepare($sql);
+        $stmt->bindParam(":correo", $correo);
+        $stmt->bindParam(":contrasena", $contrasena);
+        $stmt->execute();
+        if($stmt->rowCount() > 0){
+            $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
+            $_SESSION['validado'] = true;
+            $_SESSION['correo'] = $correo;
+            $_SESSION['usuario_id'] = $usuario['id_usuario'];
+            $roles = $this->getroles($correo);
+            $permisos = $this->getpermisos($correo);
+            $_SESSION['roles'] = $roles;
+            $_SESSION['permisos'] = $permisos;
+            return true;
         }
     }
+    return false;
+}
 
-    function logout(){
+function logout(){
+    if (session_status() === PHP_SESSION_NONE) {
         session_start();
-        unset($_SESSION);
-        session_destroy();
     }
+    unset($_SESSION);
+    session_destroy();
+}
 
-    function getroles($correo){
-        $this -> conect();
-        $sql = "SELECT r.nombre FROM roles r
-                JOIN rol_privilegio ur ON r.id = ur.id_rol
-                JOIN usuarios u ON ur.id_usuario = u.id
-                WHERE u.correo = :correo";
-        $stmt = $this->db->prepare($sql);
-        $stmt->bindParam(":correo", $correo);
-        $stmt->execute();
-        return $stmt -> fetchAll(PDO::FETCH_COLUMN);
-    }
+function getroles($correo){
+    $this->conect();
+    $sql = "SELECT r.rol FROM rol r
+            JOIN usuario_rol ur ON r.id_rol = ur.id_rol
+            JOIN usuario u ON ur.id_usuario = u.id_usuario
+            WHERE u.correo = :correo";
+    $stmt = $this->_BD->prepare($sql);
+    $stmt->bindParam(":correo", $correo);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_COLUMN);
+}
 
-    function getpermisos($correo){
-        $this -> conect();
-        $sql = "SELECT p.nombre FROM permisos p
-                JOIN rol_permisos rp ON p.id = rp.id_permiso
-                JOIN roles r ON rp.id_rol = r.id
-                JOIN usuario_rol ur ON r.id = ur.id_rol
-                JOIN usuarios u ON ur.id_usuario = u.id
-                WHERE u.correo = :correo";
-        $stmt = $this->db->prepare($sql);
-        $stmt->bindParam(":correo", $correo);
-        $stmt->execute();
-        return $stmt -> fetchAll(PDO::FETCH_COLUMN);
-    }
+function getpermisos($correo){
+    $this->conect();
+    $sql = "SELECT DISTINCT p.privilegio FROM privilegio p
+            JOIN rol_privilegio rp ON p.id_privilegio = rp.id_privilegio
+            JOIN rol r ON rp.id_rol = r.id_rol
+            JOIN usuario_rol ur ON r.id_rol = ur.id_rol
+            JOIN usuario u ON ur.id_usuario = u.id_usuario
+            WHERE u.correo = :correo";
+    $stmt = $this->_BD->prepare($sql);
+    $stmt->bindParam(":correo", $correo);
+    $stmt->execute();
+    return $stmt->fetchAll(PDO::FETCH_COLUMN);
+}
 }
 ?>
