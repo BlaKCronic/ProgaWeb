@@ -55,27 +55,6 @@ include_once "./views/header.php";
         </div>
     </div>
 
-    <div class="row mt-5">
-        <div class="col-12">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Roles asignados</h5>
-                    <ul>
-                        <?php
-                        if(isset($_SESSION['roles']) && is_array($_SESSION['roles'])){
-                            foreach($_SESSION['roles'] as $rol){
-                                echo "<li>" . htmlspecialchars($rol) . "</li>";
-                            }
-                        } else {
-                            echo "<li>Sin roles asignados</li>";
-                        }
-                        ?>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <div class="row mt-3">
         <div class="col-12 text-center">
             <a href="login.php?accion=logout" class="btn btn-danger">Cerrar Sesión</a>
