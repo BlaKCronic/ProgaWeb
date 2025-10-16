@@ -205,38 +205,38 @@ class Sistema{
     return false;
 }
 
-function logout(){
-    if (session_status() === PHP_SESSION_NONE) {
-        session_start();
+    function logout(){
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+        unset($_SESSION);
+        session_destroy();
     }
-    unset($_SESSION);
-    session_destroy();
-}
 
-function getroles($correo){
-    $this->conect();
-    $sql = "SELECT r.rol FROM rol r
-            JOIN usuario_rol ur ON r.id_rol = ur.id_rol
-            JOIN usuario u ON ur.id_usuario = u.id_usuario
-            WHERE u.correo = :correo";
-    $stmt = $this->_BD->prepare($sql);
-    $stmt->bindParam(":correo", $correo);
-    $stmt->execute();
-    return $stmt->fetchAll(PDO::FETCH_COLUMN);
-}
+    function getroles($correo){
+        $this->conect();
+        $sql = "SELECT r.rol FROM rol r
+                JOIN usuario_rol ur ON r.id_rol = ur.id_rol
+                JOIN usuario u ON ur.id_usuario = u.id_usuario
+                WHERE u.correo = :correo";
+        $stmt = $this->_BD->prepare($sql);
+        $stmt->bindParam(":correo", $correo);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_COLUMN);
+    }
 
-function getpermisos($correo){
-    $this->conect();
-    $sql = "SELECT DISTINCT p.privilegio FROM privilegio p
-            JOIN rol_privilegio rp ON p.id_privilegio = rp.id_privilegio
-            JOIN rol r ON rp.id_rol = r.id_rol
-            JOIN usuario_rol ur ON r.id_rol = ur.id_rol
-            JOIN usuario u ON ur.id_usuario = u.id_usuario
-            WHERE u.correo = :correo";
-    $stmt = $this->_BD->prepare($sql);
-    $stmt->bindParam(":correo", $correo);
-    $stmt->execute();
-    return $stmt->fetchAll(PDO::FETCH_COLUMN);
-}
+    function getpermisos($correo){
+        $this->conect();
+        $sql = "SELECT DISTINCT p.privilegio FROM privilegio p
+                JOIN rol_privilegio rp ON p.id_privilegio = rp.id_privilegio
+                JOIN rol r ON rp.id_rol = r.id_rol
+                JOIN usuario_rol ur ON r.id_rol = ur.id_rol
+                JOIN usuario u ON ur.id_usuario = u.id_usuario
+                WHERE u.correo = :correo";
+        $stmt = $this->_BD->prepare($sql);
+        $stmt->bindParam(":correo", $correo);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_COLUMN);
+    }
 }
 ?>

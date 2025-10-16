@@ -1,7 +1,6 @@
 <?php
 session_start();
 
-// Verificar si el usuario está autenticado
 if(!isset($_SESSION['validado']) || $_SESSION['validado'] !== true){
     header("Location: login.php");
     exit();
