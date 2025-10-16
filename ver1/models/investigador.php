@@ -1,35 +1,41 @@
 <?php
 require_once "sistema.php";
-class Investigador extends Sistema{
+
+class Investigador extends Sistema {
     
-    function create($data){
+    function create($data) {
         $this->conect();
+        
+        if (!isset($_FILES['fotografia']) || $_FILES['fotografia']['error'] === UPLOAD_ERR_NO_FILE) {
+            $_SESSION['error_message'] = 'Debe seleccionar una fotografía';
+            return 0;
+        }
         
         $upload_result = $this->cargarFotografia('investigadores');
         
-        if(!$upload_result['success']){
+        if (!$upload_result['success']) {
             $_SESSION['error_message'] = $upload_result['error'];
             return 0;
         }
         
         $fotografia = $upload_result['filename'];
         
-        $sth = $this->_BD->prepare("INSERT INTO investigador (primer_apellido, segundo_apellido, nombre, fotografia, id_institucion, semblanza, id_tratamiento) 
-        VALUES (:primer_apellido, :segundo_apellido, :nombre, :fotografia, :id_institucion, :semblanza, :id_tratamiento)");
-        
-        $sth->bindParam(":primer_apellido", $data['primer_apellido']);
-        $sth->bindParam(":segundo_apellido", $data['segundo_apellido']);
-        $sth->bindParam(":nombre", $data['nombre']);
-        $sth->bindParam(":fotografia", $fotografia);
-        $sth->bindParam(":id_institucion", $data['id_institucion']);
-        $sth->bindParam(":semblanza", $data['semblanza']);
-        $sth->bindParam(":id_tratamiento", $data['id_tratamiento']);
-        
         try {
+            $sth = $this->_BD->prepare("INSERT INTO investigador (primer_apellido, segundo_apellido, nombre, fotografia, id_institucion, semblanza, id_tratamiento) 
+            VALUES (:primer_apellido, :segundo_apellido, :nombre, :fotografia, :id_institucion, :semblanza, :id_tratamiento)");
+            
+            $sth->bindParam(":primer_apellido", $data['primer_apellido']);
+            $sth->bindParam(":segundo_apellido", $data['segundo_apellido']);
+            $sth->bindParam(":nombre", $data['nombre']);
+            $sth->bindParam(":fotografia", $fotografia);
+            $sth->bindParam(":id_institucion", $data['id_institucion']);
+            $sth->bindParam(":semblanza", $data['semblanza']);
+            $sth->bindParam(":id_tratamiento", $data['id_tratamiento']);
+            
             $sth->execute();
             $rows_affected = $sth->rowCount();
             
-            if($rows_affected > 0){
+            if ($rows_affected > 0) {
                 $_SESSION['success_message'] = 'Investigador creado exitosamente';
             }
             
@@ -41,7 +47,7 @@ class Investigador extends Sistema{
         }
     }
 
-    function read(){
+    function read() {
         $this->conect();
         $sql = "SELECT inv.*, i.institucion, t.tratamiento 
                 FROM investigador inv 
@@ -53,7 +59,7 @@ class Investigador extends Sistema{
         return $data;
     }
 
-    function readOne($id){
+    function readOne($id) {
         $this->conect();
         $sql = "SELECT inv.*, i.institucion, t.tratamiento 
                 FROM investigador inv 
@@ -67,19 +73,23 @@ class Investigador extends Sistema{
         return $data;
     }
 
-    function update($data, $id){
+    function update($data, $id) {
         $this->conect();
         
         $investigador_actual = $this->readOne($id);
+        if (!$investigador_actual) {
+            $_SESSION['error_message'] = 'Investigador no encontrado';
+            return 0;
+        }
+        
         $fotografia_actual = $investigador_actual['fotografia'];
         $nueva_fotografia = $fotografia_actual;
         
-        if(isset($_FILES['fotografia']) && $_FILES['fotografia']['error'] !== UPLOAD_ERR_NO_FILE){
+        if (isset($_FILES['fotografia']) && $_FILES['fotografia']['error'] !== UPLOAD_ERR_NO_FILE) {
             $upload_result = $this->cargarFotografia('investigadores');
             
-            if($upload_result['success']){
+            if ($upload_result['success']) {
                 $nueva_fotografia = $upload_result['filename'];
-                // Eliminar la fotografía anterior
                 $this->eliminarArchivo('investigadores', $fotografia_actual);
             } else {
                 $_SESSION['error_message'] = $upload_result['error'];
@@ -87,37 +97,37 @@ class Investigador extends Sistema{
             }
         }
         
-        $sql = "UPDATE investigador SET 
-                primer_apellido = :primer_apellido, 
-                segundo_apellido = :segundo_apellido, 
-                nombre = :nombre, 
-                fotografia = :fotografia, 
-                id_institucion = :id_institucion, 
-                semblanza = :semblanza, 
-                id_tratamiento = :id_tratamiento 
-                WHERE id_investigador = :id_investigador";
-        
-        $sth = $this->_BD->prepare($sql);
-        $sth->bindParam(":primer_apellido", $data['primer_apellido'], PDO::PARAM_STR);
-        $sth->bindParam(":segundo_apellido", $data['segundo_apellido'], PDO::PARAM_STR);
-        $sth->bindParam(":nombre", $data['nombre'], PDO::PARAM_STR);
-        $sth->bindParam(":fotografia", $nueva_fotografia, PDO::PARAM_STR);
-        $sth->bindParam(":id_institucion", $data['id_institucion'], PDO::PARAM_INT);
-        $sth->bindParam(":semblanza", $data['semblanza'], PDO::PARAM_STR);
-        $sth->bindParam(":id_tratamiento", $data['id_tratamiento'], PDO::PARAM_INT);
-        $sth->bindParam(":id_investigador", $id, PDO::PARAM_INT);
-        
         try {
+            $sql = "UPDATE investigador SET 
+                    primer_apellido = :primer_apellido, 
+                    segundo_apellido = :segundo_apellido, 
+                    nombre = :nombre, 
+                    fotografia = :fotografia, 
+                    id_institucion = :id_institucion, 
+                    semblanza = :semblanza, 
+                    id_tratamiento = :id_tratamiento 
+                    WHERE id_investigador = :id_investigador";
+            
+            $sth = $this->_BD->prepare($sql);
+            $sth->bindParam(":primer_apellido", $data['primer_apellido'], PDO::PARAM_STR);
+            $sth->bindParam(":segundo_apellido", $data['segundo_apellido'], PDO::PARAM_STR);
+            $sth->bindParam(":nombre", $data['nombre'], PDO::PARAM_STR);
+            $sth->bindParam(":fotografia", $nueva_fotografia, PDO::PARAM_STR);
+            $sth->bindParam(":id_institucion", $data['id_institucion'], PDO::PARAM_INT);
+            $sth->bindParam(":semblanza", $data['semblanza'], PDO::PARAM_STR);
+            $sth->bindParam(":id_tratamiento", $data['id_tratamiento'], PDO::PARAM_INT);
+            $sth->bindParam(":id_investigador", $id, PDO::PARAM_INT);
+            
             $sth->execute();
             $rows_affected = $sth->rowCount();
             
-            if($rows_affected > 0){
+            if ($rows_affected > 0) {
                 $_SESSION['success_message'] = 'Investigador actualizado exitosamente';
             }
             
             return $rows_affected;
         } catch (PDOException $e) {
-            if($nueva_fotografia !== $fotografia_actual){
+            if ($nueva_fotografia !== $fotografia_actual) {
                 $this->eliminarArchivo('investigadores', $nueva_fotografia);
             }
             $_SESSION['error_message'] = 'Error al actualizar: ' . $e->getMessage();
@@ -125,24 +135,25 @@ class Investigador extends Sistema{
         }
     }
 
-    function delete($id){
-        if(!is_numeric($id)){
+    function delete($id) {
+        if (!is_numeric($id)) {
             return null;
         }
         
         $investigador = $this->readOne($id);
         
-        if($investigador){
+        if ($investigador) {
             $this->conect();
-            $sql = "DELETE FROM investigador WHERE id_investigador = :id_investigador";
-            $sth = $this->_BD->prepare($sql);
-            $sth->bindParam(":id_investigador", $id, PDO::PARAM_INT);
             
             try {
+                $sql = "DELETE FROM investigador WHERE id_investigador = :id_investigador";
+                $sth = $this->_BD->prepare($sql);
+                $sth->bindParam(":id_investigador", $id, PDO::PARAM_INT);
                 $sth->execute();
                 $rows_affected = $sth->rowCount();
                 
-                if($rows_affected > 0){
+                if ($rows_affected > 0) {
+                    // Eliminar la fotografía física
                     $this->eliminarArchivo('investigadores', $investigador['fotografia']);
                     $_SESSION['success_message'] = 'Investigador eliminado exitosamente';
                 }

@@ -2,15 +2,18 @@
 require_once "../models/investigador.php";
 include_once "../models/institucion.php";
 include_once "../models/tratamiento.php";
+
 $app = new Investigador();
 $appInstitucion = new Institucion();
 $appTratamiento = new Tratamiento();
-$instituciones = $appInstitucion -> read();
-$tratamientos = $appTratamiento -> read();
+$instituciones = $appInstitucion->read();
+$tratamientos = $appTratamiento->read();
 $action = isset($_GET['action']) ? $_GET['action'] : 'read';
 $data = array();
+
 include_once "./views/header.php";
-switch ($action){
+
+switch ($action) {
     case 'create':
         if (isset($_POST['enviar'])) {
             $data['primer_apellido'] = $_POST['primer_apellido'];
@@ -20,11 +23,16 @@ switch ($action){
             $data['semblanza'] = $_POST['semblanza'];
             $data['id_tratamiento'] = $_POST['id_tratamiento'];
             
-            $filas = $app -> create($data);
-            $data = $app -> read();
-            include_once "views/investigador/index.php";
-        }
-        else {
+            $filas = $app->create($data);
+            
+            if ($filas > 0) {
+                header("Location: investigador.php?success=created");
+                exit();
+            } else {
+                header("Location: investigador.php?action=create&error=insert");
+                exit();
+            }
+        } else {
             include_once "views/investigador/_form.php";
         }
         break;
@@ -35,26 +43,22 @@ switch ($action){
             $data['primer_apellido'] = $_POST['primer_apellido'];
             $data['segundo_apellido'] = $_POST['segundo_apellido'];
             $data['nombre'] = $_POST['nombre'];
-            
-            if(isset($_FILES['fotografia']) && $_FILES['fotografia']['error'] == 0){
-                $fotografia = $app->cargarFotografia('investigadores');
-                $data['fotografia'] = $fotografia;
-            } else {
-                $investigador_actual = $app->readOne($id);
-                $data['fotografia'] = $investigador_actual['fotografia'];
-            }
-            
             $data['id_institucion'] = $_POST['id_institucion'];
             $data['semblanza'] = $_POST['semblanza'];
             $data['id_tratamiento'] = $_POST['id_tratamiento'];
             
-            $row = $app -> update($data, $id);
-            $data = $app -> read();
-            include_once "views/investigador/index.php";
-        }
-        else {
+            $row = $app->update($data, $id);
+            
+            if ($row > 0) {
+                header("Location: investigador.php?success=updated");
+                exit();
+            } else {
+                header("Location: investigador.php?action=update&id=$id&error=update");
+                exit();
+            }
+        } else {
             $id_investigador = $_GET['id'];
-            $data = $app -> readOne($id_investigador);
+            $data = $app->readOne($id_investigador);
             include_once "views/investigador/_form_update.php";
         }
         break;
@@ -62,17 +66,45 @@ switch ($action){
     case 'delete':
         if (isset($_GET['id'])) {
             $id = $_GET['id'];
-            $filas = $app -> delete($id);
+            $filas = $app->delete($id);
+            
+            if ($filas > 0) {
+                header("Location: investigador.php?success=deleted");
+                exit();
+            } else {
+                header("Location: investigador.php?error=delete");
+                exit();
+            }
         }
-        $data = $app -> read();
-        include_once "views/investigador/index.php";
         break;
     
     case 'read':
     default:
-        $data = $app -> read();
+        if (isset($_GET['success'])) {
+            $messages = [
+                'created' => 'Investigador creado exitosamente',
+                'updated' => 'Investigador actualizado exitosamente',
+                'deleted' => 'Investigador eliminado exitosamente'
+            ];
+            if (isset($messages[$_GET['success']])) {
+                echo '<div class="alert alert-success alert-dismissible fade show" role="alert">';
+                echo $messages[$_GET['success']];
+                echo '<button type="button" class="btn-close" data-bs-dismiss="alert"></button>';
+                echo '</div>';
+            }
+        }
+        
+        if (isset($_GET['error'])) {
+            echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">';
+            echo 'Ocurrió un error al procesar la operación';
+            echo '<button type="button" class="btn-close" data-bs-dismiss="alert"></button>';
+            echo '</div>';
+        }
+        
+        $data = $app->read();
         include_once "views/investigador/index.php";
         break;
 }
+
 include_once "views/footer.php";
 ?>
