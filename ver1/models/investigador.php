@@ -15,43 +15,33 @@ class Investigador extends Sistema {
             $sth->bindParam(":semblanza", $data['semblanza'], PDO::PARAM_STR);
             $sth->bindParam(":id_institucion", $data['id_institucion'], PDO::PARAM_INT);
             $sth->bindParam(":id_tratamiento", $data['id_tratamiento'], PDO::PARAM_INT);
+            
             $fotografia = $this->cargarFotografia('investigadores','fotografia');
+            if(!$fotografia){
+                $fotografia = 'default.jpg';
+            }
             $sth->bindParam(":fotografia", $fotografia, PDO::PARAM_STR);
             $sth->execute();
             $affected_rows = $sth->rowCount();
             
-            // Crear usuario asociado
-            $sql = "INSERT INTO usuario (correo, password) 
-                    VALUES (:correo, :password)";
+            $id_investigador = $this->_DB->lastInsertId();
+            
+            $sql = "INSERT INTO usuario (correo, contrasena) 
+                    VALUES (:correo, :contrasena)";
             $sth = $this->_DB->prepare($sql);
             $sth->bindParam(":correo", $data['correo'], PDO::PARAM_STR);
             $pwd = md5($data['password']);
-            $sth->bindParam(":password", $pwd, PDO::PARAM_STR);
+            $sth->bindParam(":contrasena", $pwd, PDO::PARAM_STR);
             $sth->execute();
             
-            // Obtener el usuario recién creado
-            $sql = "SELECT * FROM usuario WHERE correo = :correo";
-            $sth = $this->_DB->prepare($sql);
-            $sth->bindParam(":correo", $data['correo'], PDO::PARAM_STR);
-            $sth->execute();
-            $user = $sth->fetch(PDO::FETCH_ASSOC);
-            $id_usuario = $user['id_usuario'];
+            $id_usuario = $this->_DB->lastInsertId();
             
-            // Asignar rol de investigador (id_role = 2)
-            $sql = "INSERT INTO usuario_role (id_role, id_usuario)
-                    VALUES (2, :id_usuario)";
+            $sql = "INSERT INTO usuario_rol (id_usuario, id_rol)
+                    VALUES (:id_usuario, 2)";
             $sth = $this->_DB->prepare($sql);
             $sth->bindParam(":id_usuario", $id_usuario, PDO::PARAM_INT);
             $sth->execute();
             
-            // Obtener el investigador recién creado
-            $sql = "SELECT * FROM investigador ORDER BY id_investigador DESC LIMIT 1";
-            $sth = $this->_DB->prepare($sql);
-            $sth->execute();
-            $investigador = $sth->fetch(PDO::FETCH_ASSOC);
-            $id_investigador = $investigador['id_investigador'];
-            
-            // Actualizar investigador con id_usuario
             $sql = "UPDATE investigador SET id_usuario = :id_usuario 
                     WHERE id_investigador = :id_investigador";
             $sth = $this->_DB->prepare($sql);
@@ -63,8 +53,9 @@ class Investigador extends Sistema {
             return $affected_rows;
         } catch (Exception $ex) {
             $this->_DB->rollback();
+            error_log("Error al crear investigador: " . $ex->getMessage());
+            return null;
         }
-        return null;
     }
 
     function read(){
@@ -105,6 +96,7 @@ class Investigador extends Sistema {
                 segundo_apellido = :segundo_apellido, nombre = :nombre,  
                 id_institucion = :id_institucion, semblanza = :semblanza, id_tratamiento = :id_tratamiento 
                 WHERE id_investigador = :id_investigador";
+                
                 if (isset($_FILES['fotografia'])) {
                     if ($_FILES['fotografia']['error'] === 0) {
                         $sql = "UPDATE investigador SET primer_apellido = :primer_apellido, 
@@ -114,6 +106,7 @@ class Investigador extends Sistema {
                         $fotografia = $this->cargarFotografia('investigadores','fotografia');
                     }
                 }
+                
                 $sth = $this->_DB->prepare($sql);
                 $sth->bindParam(":primer_apellido", $data['primer_apellido'], PDO::PARAM_STR);
                 $sth->bindParam(":segundo_apellido", $data['segundo_apellido'], PDO::PARAM_STR);
@@ -122,17 +115,20 @@ class Investigador extends Sistema {
                 $sth->bindParam(":semblanza", $data['semblanza'], PDO::PARAM_STR);
                 $sth->bindParam(":id_tratamiento", $data['id_tratamiento'], PDO::PARAM_INT);
                 $sth->bindParam(":id_investigador", $id, PDO::PARAM_INT);
+                
                 if (isset($_FILES['fotografia'])) {
                     if ($_FILES['fotografia']['error'] === 0) {
                         $sth->bindParam(":fotografia", $fotografia, PDO::PARAM_STR);
                     }
                 }
+                
                 $sth->execute(); 
                 $affected_rows = $sth->rowCount();  
                 $this->_DB->commit();
                 return $affected_rows;
             } catch (Exception $ex) {
                 $this->_DB->rollback();
+                error_log("Error al actualizar investigador: " . $ex->getMessage());
             }
             return null;
         } 
@@ -144,15 +140,35 @@ class Investigador extends Sistema {
             $this->connect();
             $this->_DB->beginTransaction();
             try {
+                $sql = "SELECT id_usuario FROM investigador WHERE id_investigador = :id_investigador";
+                $sth = $this->_DB->prepare($sql);
+                $sth->bindParam(":id_investigador", $id, PDO::PARAM_INT);
+                $sth->execute();
+                $inv = $sth->fetch(PDO::FETCH_ASSOC);
+                
                 $sql = "DELETE FROM investigador WHERE id_investigador = :id_investigador";
                 $sth = $this->_DB->prepare($sql);
                 $sth->bindParam(":id_investigador", $id, PDO::PARAM_INT);
                 $sth->execute();
                 $affected_rows = $sth->rowCount();
+                
+                if($inv && isset($inv['id_usuario']) && $inv['id_usuario'] != null){
+                    $sql = "DELETE FROM usuario_rol WHERE id_usuario = :id_usuario";
+                    $sth = $this->_DB->prepare($sql);
+                    $sth->bindParam(":id_usuario", $inv['id_usuario'], PDO::PARAM_INT);
+                    $sth->execute();
+                    
+                    $sql = "DELETE FROM usuario WHERE id_usuario = :id_usuario";
+                    $sth = $this->_DB->prepare($sql);
+                    $sth->bindParam(":id_usuario", $inv['id_usuario'], PDO::PARAM_INT);
+                    $sth->execute();
+                }
+                
                 $this->_DB->commit();
                 return $affected_rows;
             } catch (Exception $ex) {
                 $this->_DB->rollback();
+                error_log("Error al eliminar investigador: " . $ex->getMessage());
             }
             return null;
         } else {

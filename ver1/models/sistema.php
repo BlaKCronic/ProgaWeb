@@ -1,10 +1,15 @@
 <?php
-session_start();
 class Sistema{
     var $_DSN = "mysql:host=mariadb;dbname=database";
     var $_USER = "user";
     var $_PASSWORD = "password";
     var $_DB = null;
+    
+    function __construct(){
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+    }
     
     function connect(){
         $this->_DB = new PDO($this->_DSN, $this->_USER, $this->_PASSWORD);
@@ -45,7 +50,7 @@ class Sistema{
         $sql = "SELECT r.rol FROM usuario u 
                 JOIN usuario_rol ur ON u.id_usuario = ur.id_usuario
                 JOIN rol r ON ur.id_rol = r.id_rol 
-                WHERE correo = :correo";
+                WHERE u.correo = :correo";
         $stmt = $this->_DB->prepare($sql);
         $stmt->bindParam(":correo", $correo, PDO::PARAM_STR);
         $stmt->execute();
@@ -65,13 +70,15 @@ class Sistema{
                 LEFT JOIN rol r ON ur.id_rol = r.id_rol
                 LEFT JOIN rol_privilegio rp ON r.id_rol = rp.id_rol
                 LEFT JOIN privilegio p ON rp.id_privilegio = p.id_privilegio
-                WHERE correo = :correo";
+                WHERE u.correo = :correo";
         $stmt = $this->_DB->prepare($sql);
         $stmt->bindParam(":correo", $correo, PDO::PARAM_STR);
         $stmt->execute();
         if($stmt->rowCount() > 0){
             while($fila = $stmt->fetch(PDO::FETCH_ASSOC)){
-                $permisos[] = $fila['privilegio'];
+                if($fila['privilegio'] != null){
+                    $permisos[] = $fila['privilegio'];
+                }
             }
         }
         return $permisos;
@@ -106,7 +113,7 @@ class Sistema{
     function checarRol($rol){
         $roles = isset($_SESSION['roles']) ? $_SESSION['roles'] : array();
         if(!in_array($rol, $roles)){
-            $alerta['mensaje'] = "Usted no tiene el rol adecuado";
+            $alerta['mensaje'] = "Usted no tiene el rol adecuado. Roles actuales: " . implode(", ", $roles);
             $alerta['tipo'] = "danger";
             include_once("./views/error.php");
             die();
