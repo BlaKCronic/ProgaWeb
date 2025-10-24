@@ -45,6 +45,10 @@ if(!isset($_SESSION['validado']) || $_SESSION['validado'] !== true){
                         <li><a class="dropdown-item" href="investigador.php">
                             <i class="fas fa-users me-2"></i>Investigadores
                         </a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="usuario.php">
+                            <i class="fas fa-user-cog me-2"></i>Usuarios
+                        </a></li>
                     </ul>
                 </li>
                 <li class="nav-item">
@@ -58,35 +62,12 @@ if(!isset($_SESSION['validado']) || $_SESSION['validado'] !== true){
                     <i class="fas fa-user-circle me-1"></i>
                     <?php echo isset($_SESSION['correo']) ? $_SESSION['correo'] : 'Usuario'; ?>
                 </span>
-                <a href="login.php?accion=logout" class="btn btn-outline-light btn-sm">
+                <a href="login.php?action=logout" class="btn btn-outline-light btn-sm">
                     <i class="fas fa-sign-out-alt me-1"></i>Salir
                 </a>
             </div>
         </div>
     </div>
 </nav>
-
-<?php
-// Mostrar mensajes de sesión
-if(isset($_SESSION['success_message'])){
-    echo '<div class="container mt-3">';
-    echo '<div class="alert alert-success alert-dismissible fade show" role="alert">';
-    echo $_SESSION['success_message'];
-    echo '<button type="button" class="btn-close" data-bs-dismiss="alert"></button>';
-    echo '</div>';
-    echo '</div>';
-    unset($_SESSION['success_message']);
-}
-
-if(isset($_SESSION['error_message'])){
-    echo '<div class="container mt-3">';
-    echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">';
-    echo $_SESSION['error_message'];
-    echo '<button type="button" class="btn-close" data-bs-dismiss="alert"></button>';
-    echo '</div>';
-    echo '</div>';
-    unset($_SESSION['error_message']);
-}
-?>
 
 <div class="container-fluid mt-3">
