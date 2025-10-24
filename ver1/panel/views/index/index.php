@@ -8,10 +8,8 @@
         </div>
     </div>
 
-    <!-- Tarjetas de estadísticas -->
     <div class="row g-4 mb-4">
         <?php
-        // Obtener estadísticas
         require_once("../models/investigador.php");
         require_once("../models/institucion.php");
         require_once("../models/tratamiento.php");
@@ -109,7 +107,6 @@
         </div>
     </div>
 
-    <!-- Información de Roles -->
     <div class="row g-4 mb-4">
         <div class="col-lg-6">
             <div class="card shadow">
@@ -180,6 +177,9 @@
                         <a href="usuario.php?action=create" class="btn btn-outline-info">
                             <i class="fas fa-plus me-2"></i>Nuevo Usuario
                         </a>
+                        <a href="usuario_rol.php" class="btn btn-outline-danger">
+                            <i class="fas fa-user-shield me-2"></i>Gestionar Roles
+                        </a>
                         <hr>
                         <a href="../index.php" target="_blank" class="btn btn-outline-secondary">
                             <i class="fas fa-external-link-alt me-2"></i>Ver Sitio Público
@@ -190,7 +190,6 @@
         </div>
     </div>
 
-    <!-- Últimos investigadores -->
     <div class="row">
         <div class="col-12">
             <div class="card shadow">

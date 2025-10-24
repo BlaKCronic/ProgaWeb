@@ -1,5 +1,4 @@
 <?php
-// Verificar autenticación
 if(!isset($_SESSION['validado']) || $_SESSION['validado'] !== true){
     header("Location: login.php");
     exit();
@@ -45,9 +44,19 @@ if(!isset($_SESSION['validado']) || $_SESSION['validado'] !== true){
                         <li><a class="dropdown-item" href="investigador.php">
                             <i class="fas fa-users me-2"></i>Investigadores
                         </a></li>
-                        <li><hr class="dropdown-divider"></li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-user-cog me-1"></i>Usuarios
+                    </a>
+                    <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="usuario.php">
-                            <i class="fas fa-user-cog me-2"></i>Usuarios
+                            <i class="fas fa-users-cog me-2"></i>Gestión de Usuarios
+                        </a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="usuario_rol.php">
+                            <i class="fas fa-user-shield me-2 text-danger"></i>Gestión de Roles
                         </a></li>
                     </ul>
                 </li>
