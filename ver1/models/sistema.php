@@ -119,5 +119,27 @@ class Sistema{
             die();
         }
     }
+
+    function enviarCorreo($para, $asunto, $mensaje, $nombre = null){
+        require 'vendor/autoload.php';
+        $mail = new PHPMailer();
+        $mail->isSMTP();
+        $mail->SMTPDebug = SMTP::DEBUG_OFF;
+        $mail->Host = 'smtp.gmail.com';
+        $mail->Port = 465;
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+        $mail->SMTPAuth = true;
+        $mail->Username = '22030935@itcelaya.edu.mx';
+        $mail->Password = '3H2ULu9Z5a3FLsT7Q23ijg';
+        $mail->setFrom('22030935@itcelaya.edu.mx', 'Christian Edauardo Ponce Gonzalez');
+        $mail->addAddress($para, $nombre ? $nombre : 'Red de Investigación');
+        $mail->Subject = $asunto;
+        $mail->msgHTML($mensaje);
+        if (!$mail->send()) {
+            return false;
+        } else {
+            return true;
+        }
+    }
 }
 ?>
