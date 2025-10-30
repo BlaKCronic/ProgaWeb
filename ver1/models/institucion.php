@@ -100,5 +100,18 @@ class Institucion extends Sistema {
     function validate($data){
         return true;
     }
+
+    function reporteInstitucion(){
+        $this->connect();
+        $sth = $this->_DB->prepare("select ins.institucion, count(i.id_investigador) as cantidad_investigador
+                                    from institucion ins join investigador i order by cantidad_investigador desc ;");
+        $sth->execute();
+        if ($sth->rowCount() > 0) {
+            $data = $sth->fetchAll(PDO::FETCH_ASSOC);
+            return $data;
+        } else {
+            return null;
+        }
+    }
 }
 ?>

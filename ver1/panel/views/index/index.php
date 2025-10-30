@@ -188,6 +188,38 @@
                 </div>
             </div>
         </div>
+
+        <div>
+        <html>
+        <head>
+            <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+            <script type="text/javascript">
+            google.charts.load('current', {'packages':['corechart']});
+            google.charts.setOnLoadCallback(drawChart);
+
+            function drawChart() {
+
+                var data = google.visualization.arrayToDataTable([
+                ['Institución', 'Cantidad de Investigadores'],
+                <?php foreach($datosInstitucion as $dato): ?>
+                    ['<?php echo $dato['institucion']; ?>', <?php echo $dato['cantidad_investigador']; ?>],
+                <?php endforeach; ?>
+                ]);
+                var options = {
+                title: 'Investigadores por Institución'
+                };
+
+                var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+
+                chart.draw(data, options);
+            }
+            </script>
+        </head>
+        <body>
+            <div id="piechart" style="width: 900px; height: 500px;"></div>
+        </body>
+        </html>
+        </div>
     </div>
 
     <div class="row">

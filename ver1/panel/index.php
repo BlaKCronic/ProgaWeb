@@ -1,6 +1,8 @@
 <?php 
 include_once("../models/sistema.php");
+include_once("../models/institucion.php");
 $app = new Sistema();
+$appInstitucion = new Institucion();
 if(!isset($_SESSION['validado']) || $_SESSION['validado'] !== true){
     header("Location: login.php");
     exit();
@@ -22,6 +24,7 @@ $action = isset($_GET['action']) ? $_GET['action'] : 'dashboard';
 switch ($action) {
     case 'dashboard':
     default:
+    $datosInstitucion = $appInstitucion->reporteInstitucion();
         include_once("./views/index/index.php");
         break;
 }
