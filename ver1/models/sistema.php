@@ -141,5 +141,53 @@ class Sistema{
             return true;
         }
     }
+
+    function cambiarContraseña($data){
+        if(!filter_var($data['correo'], FILTER_VALIDATE_EMAIL)){
+            return false;
+        }
+        $this->connect();
+        $token = bin2hex(random_bytes(16));
+        $token = md5($token);
+        $token = $token.md5('CruzAzulCampeon');
+        $sql = "UPDATE usuario SET token = :token
+                WHERE correo = :correo";
+        $sth = $this->_db->prepare($sql);
+        $sth->bindParam(":token", $token, PDO::PARAM_STR);
+        $sth->bindParam(":correo", $data['correo'], PDO::PARAM_STR);
+        $sth->execute();
+        if($sth->rowCount() > 0){
+            $para = $data['correo'];
+            $asunto = "Recuperación de Contraseña Red de Investigación";
+            $mensaje = "Para cambiar su contraseña ingrese al siguiente link:
+                <br><br><a href='http://localhost:8080/proyecto/ProgaWeb/ver1/panel/login.php?action=token&token=". $token. 
+                "&correo=". $data['correo']. "'>Recuperar Contraseña</a>
+                <br><br>Atentamente, Adinistrador de Red de Investigación.";
+            $mail = $this->enviarCorreo($para, $asunto, $mensaje);
+            return true;
+        } else{
+            return false;
+        }
+    }
+
+    function restablecerContraseña($data){
+        if(!filter_var($data['correo'], FILTER_VALIDATE_EMAIL)){
+            return false;
+        }
+        $this->connect();
+        $contrasena = md5($data['contrasena']);
+        $sql = "UPDATE usuario SET contrasena = :contrasena, token = NULL
+                WHERE correo = :correo AND token = :token";
+        $sth = $this->_db->prepare($sql);
+        $sth->bindparam(":contrasena", $contrasena, PDO::PARAM_STR);
+        $sth->bindparam(":correo", $data['correo'], PDO::PARAM_STR);
+        $sth->bindparam(":token", $data['token'], PDO::PARAM_STR);
+        $sth->execute();
+        if($sth->rowCount() > 0){
+            return true;
+        } else{
+            return false;
+        }
+    }
 }
 ?>
