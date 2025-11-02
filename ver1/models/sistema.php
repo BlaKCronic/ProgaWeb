@@ -121,17 +121,17 @@ class Sistema{
     }
 
     function enviarCorreo($para, $asunto, $mensaje, $nombre = null){
-        require 'vendor/autoload.php';
-        $mail = new PHPMailer();
+        require_once __DIR__ . '/../vendor/autoload.php';
+        $mail = new PHPMailer\PHPMailer\PHPMailer();
         $mail->isSMTP();
-        $mail->SMTPDebug = SMTP::DEBUG_OFF;
+        $mail->SMTPDebug = PHPMailer\PHPMailer\SMTP::DEBUG_OFF;
         $mail->Host = 'smtp.gmail.com';
         $mail->Port = 465;
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+        $mail->SMTPSecure = PHPMailer\PHPMailer\PHPMailer::ENCRYPTION_SMTPS;
         $mail->SMTPAuth = true;
         $mail->Username = '22030935@itcelaya.edu.mx';
         $mail->Password = '3H2ULu9Z5a3FLsT7Q23ijg';
-        $mail->setFrom('22030935@itcelaya.edu.mx', 'Christian Edauardo Ponce Gonzalez');
+        $mail->setFrom('22030935@itcelaya.edu.mx', 'Christian Eduardo Ponce Gonzalez');
         $mail->addAddress($para, $nombre ? $nombre : 'Red de Investigación');
         $mail->Subject = $asunto;
         $mail->msgHTML($mensaje);
@@ -152,7 +152,7 @@ class Sistema{
         $token = $token.md5('CruzAzulCampeon');
         $sql = "UPDATE usuario SET token = :token
                 WHERE correo = :correo";
-        $sth = $this->_db->prepare($sql);
+        $sth = $this->_DB->prepare($sql);
         $sth->bindParam(":token", $token, PDO::PARAM_STR);
         $sth->bindParam(":correo", $data['correo'], PDO::PARAM_STR);
         $sth->execute();
@@ -162,7 +162,7 @@ class Sistema{
             $mensaje = "Para cambiar su contraseña ingrese al siguiente link:
                 <br><br><a href='http://localhost:8080/proyecto/ProgaWeb/ver1/panel/login.php?action=token&token=". $token. 
                 "&correo=". $data['correo']. "'>Recuperar Contraseña</a>
-                <br><br>Atentamente, Adinistrador de Red de Investigación.";
+                <br><br>Atentamente, Administrador de Red de Investigación.";
             $mail = $this->enviarCorreo($para, $asunto, $mensaje);
             return true;
         } else{
@@ -178,10 +178,10 @@ class Sistema{
         $contrasena = md5($data['contrasena']);
         $sql = "UPDATE usuario SET contrasena = :contrasena, token = NULL
                 WHERE correo = :correo AND token = :token";
-        $sth = $this->_db->prepare($sql);
-        $sth->bindparam(":contrasena", $contrasena, PDO::PARAM_STR);
-        $sth->bindparam(":correo", $data['correo'], PDO::PARAM_STR);
-        $sth->bindparam(":token", $data['token'], PDO::PARAM_STR);
+        $sth = $this->_DB->prepare($sql);
+        $sth->bindParam(":contrasena", $contrasena, PDO::PARAM_STR);
+        $sth->bindParam(":correo", $data['correo'], PDO::PARAM_STR);
+        $sth->bindParam(":token", $data['token'], PDO::PARAM_STR);
         $sth->execute();
         if($sth->rowCount() > 0){
             return true;

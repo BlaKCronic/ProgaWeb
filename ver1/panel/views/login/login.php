@@ -4,7 +4,7 @@
         <p>Panel de Administración</p>
     </div>
 
-    <form action="login.php?accion=login" method="post">
+    <form action="login.php?action=login" method="post">
         <div class="mb-3">
             <label for="correo" class="form-label">Correo Electrónico</label>
             <input name="correo" type="email" class="form-control" id="correo" placeholder="correo@ejemplo.com" required>
@@ -27,6 +27,7 @@
         </div>
         
         <div class="text-center mt-3">
+            <a href="login.php?action=recuperar" class="text-decoration-none d-block mb-2">¿Olvidaste tu contraseña?</a>
             <a href="../index.php" class="text-decoration-none">Volver al sitio principal</a>
         </div>
     </form>
