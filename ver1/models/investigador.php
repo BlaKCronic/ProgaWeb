@@ -179,5 +179,19 @@ class Investigador extends Sistema {
     function validate($data){
         return true;
     }
+
+    function reporteInvestigadoresPorInstitucion($id_institucion){
+        $this->connect();
+        $sql = "SELECT inv.*, i.institucion, t.tratamiento
+                FROM investigador inv 
+                LEFT JOIN institucion i ON inv.id_institucion = i.id_institucion
+                LEFT JOIN tratamiento t ON inv.id_tratamiento = t.id_tratamiento 
+                WHERE inv.id_institucion = :id_institucion";
+        $sth = $this->_DB->prepare($sql);
+        $sth->bindParam(":id_institucion", $id_institucion, PDO::PARAM_INT);
+        $sth->execute();
+        $data = $sth->fetchAll();
+        return $data;
+    }
 }
 ?>
