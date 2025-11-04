@@ -10,6 +10,19 @@ class Reportes extends Sistema {
         $institucion = new Institucion();
         $data = $institucion->reporteInvestigadoresPorInstitucion();
         $html2pdf = new Html2Pdf('P','A4','es');
+        $this -> content <"
+        <h1>Reporte de Investigadores por Institución</h1>
+        <table>
+        <tr>
+            <th>Institución</th>
+            <th>Investigadores</th>
+        </tr>
+        <tr>
+            <td>{$data['institucion']}</td>
+            <td>{$data['investigadores']}</td>
+        </tr>
+        </table>
+        ";
         $html2pdf->writeHTML($this->content);
         $html2pdf->output('reporte_investigadores.pdf');
     }
