@@ -115,7 +115,14 @@ class Sistema{
         if(!in_array($rol, $roles)){
             $alerta['mensaje'] = "Usted no tiene el rol adecuado. Roles actuales: " . implode(", ", $roles);
             $alerta['tipo'] = "danger";
-            include_once("./views/error.php");
+            $errorView = dirname(__DIR__) . '/views/error.php';
+            if (file_exists($errorView)) {
+                include_once $errorView;
+            } elseif (file_exists(__DIR__ . '/views/error.php')) {
+                include_once __DIR__ . '/views/error.php';
+            } else {
+                echo '<h1>Error</h1><p>No se encontró la vista de error. ' . htmlspecialchars($alerta['mensaje']) . '</p>';
+            }
             die();
         }
     }
