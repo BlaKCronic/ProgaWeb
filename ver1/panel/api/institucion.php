@@ -1,65 +1,44 @@
 <?php
-//header('Content-Type: application/json');
+header('Content-Type: application/json');
 require_once __DIR__ . '/../../models/institucion.php';
 $app = new Institucion();
-$app->checarRol('Administrador');
-$action = isset($_GET['action']) ? $_GET['action'] : 'read';
+//$app->checarRol('Administrador');
+$action = $_SERVER['REQUEST_METHOD'];
 $data = array();
+//print_r($_POST);
+//die();
+$id = isset($_GET['id']) ? $_GET['id'] : null;
 switch ($action) {
-    case 'create':
-        if (isset($_POST['enviar'])) {
-            $data['institucion'] = $_POST['institucion'];
-            $row = $app->create($data);
-            if ($row){
-                $alerta['mensaje'] = "Institución dada de alta correctamente";
-                $alerta['tipo'] = "success";
-            } else {
-                $alerta['mensaje'] = "La institución no fue dada de alta";
-                $alerta['tipo'] = "danger";
-            }
-            $data = $app->read();
-        } else {
+    case 'POST':
+        $data = $_POST;
+        if (!is_null($id)){
+            $row = $app -> update($data, $id);
+            $data['mensaje'] = 'Registro actualizado correctamente';
+        }else{
+            $row = $app -> create($data);
+            $data['mensaje'] = 'Registro creado correctamente';
         }
         break;
-
-    case 'update':
-        if (isset($_POST['enviar'])) {
-            $data['institucion'] = $_POST['institucion'];
-            $id = $_GET['id'];
-            $row = $app->update($data, $id); 
-            if ($row){
-                $alerta['mensaje'] = "Institución modificada correctamente";
-                $alerta['tipo'] = "success";
-            } else {
-                $alerta['mensaje'] = "La institución no fue modificada";
-                $alerta['tipo'] = "danger";            }
+    case 'DELETE':
+        if (!is_null($id)) {
+            $row = $app->delete($id);
+            if ($row) {
+                $data['mensaje'] = 'Registro eliminado correctamente';
+            }else {
+                $data['mensaje'] = 'No se pudo eliminar el registro';
+            }
+        }else {
+            $data['mensaje'] = 'Falta el identificador del registro a eliminar';
+        }
+        break;
+    case 'GET':
+    default:
+    if (is_null($id)){
             $data = $app->read();
         } else {
-            $id = $_GET['id'];
             $data = $app->readOne($id);
         }
         break;
-
-    case 'delete':
-        if(isset($_GET['id'])){
-            $id = $_GET['id'];
-            $row = $app->delete($id);
-            if ($row){
-                $alerta['mensaje'] = "Institución eliminada correctamente";
-                $alerta['tipo'] = "success";
-            } else {
-                $alerta['mensaje'] = "La institución no fue eliminada";
-                $alerta['tipo'] = "danger";
-            }
-        }
-        $data = $app->read();
-        break;
-    
-    case 'read':
-    default:
-        $data = $app->read();
-        print_r($data);
-        die();
-        break;
 }
+print(json_encode($data, JSON_PRETTY_PRINT));
 ?>
