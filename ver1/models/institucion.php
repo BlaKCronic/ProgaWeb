@@ -1,5 +1,6 @@
 <?php
 require_once "sistema.php";
+
 class Institucion extends Sistema {
     function create($data){
         $this->connect();
@@ -17,6 +18,29 @@ class Institucion extends Sistema {
             return $affected_rows;
         } catch (Exception $ex) {
             $this->_DB->rollback();
+        }
+        return null;
+    }
+
+    function createWithBase64($data){
+        $this->connect();
+        $this->_DB->beginTransaction();
+        try {
+            $sql = "INSERT INTO institucion (institucion, logotipo) 
+                    VALUES (:institucion, :logotipo)";
+            $sth = $this->_DB->prepare($sql);
+            $sth->bindParam(":institucion", $data['institucion'], PDO::PARAM_STR);
+            
+            $logotipo = isset($data['logotipo_base64']) ? $data['logotipo_base64'] : null;
+            $sth->bindParam(":logotipo", $logotipo, PDO::PARAM_STR);
+            
+            $sth->execute();
+            $affected_rows = $sth->rowCount();
+            $this->_DB->commit();
+            return $affected_rows;
+        } catch (Exception $ex) {
+            $this->_DB->rollback();
+            error_log("Error al crear institución con base64: " . $ex->getMessage());
         }
         return null;
     }
@@ -76,6 +100,42 @@ class Institucion extends Sistema {
         return null;
     }
 
+    function updateWithBase64($data, $id){
+        if (!is_numeric($id)) {
+            return null;    
+        }  
+        if ($this->validate($data)) {
+            $this->connect(); 
+            $this->_DB->beginTransaction();
+            try {
+                if (isset($data['logotipo_base64']) && !empty($data['logotipo_base64'])) {
+                    $sql = "UPDATE institucion SET institucion = :institucion, 
+                            logotipo = :logotipo WHERE id_institucion = :id_institucion";
+                    $sth = $this->_DB->prepare($sql);
+                    $sth->bindParam(":institucion", $data['institucion'], PDO::PARAM_STR);
+                    $sth->bindParam(":logotipo", $data['logotipo_base64'], PDO::PARAM_STR);
+                    $sth->bindParam(":id_institucion", $id, PDO::PARAM_INT);
+                } else {
+                    $sql = "UPDATE institucion SET institucion = :institucion
+                            WHERE id_institucion = :id_institucion";
+                    $sth = $this->_DB->prepare($sql);
+                    $sth->bindParam(":institucion", $data['institucion'], PDO::PARAM_STR);
+                    $sth->bindParam(":id_institucion", $id, PDO::PARAM_INT);
+                }
+                
+                $sth->execute(); 
+                $affected_rows = $sth->rowCount();  
+                $this->_DB->commit();
+                return $affected_rows;
+            } catch (Exception $ex) {
+                $this->_DB->rollback();
+                error_log("Error al actualizar institución con base64: " . $ex->getMessage());
+            }
+            return null;
+        } 
+        return null;
+    }
+
     function delete($id){
         if (is_numeric($id)) {
             $this->connect();
@@ -103,8 +163,11 @@ class Institucion extends Sistema {
 
     function reporteInstitucion(){
         $this->connect();
-        $sth = $this->_DB->prepare("select ins.institucion, count(i.id_investigador) as cantidad_investigador
-                                    from institucion ins join investigador i order by cantidad_investigador desc ;");
+        $sth = $this->_DB->prepare("SELECT ins.institucion, COUNT(i.id_investigador) as cantidad_investigador
+                                    FROM institucion ins 
+                                    LEFT JOIN investigador i ON ins.id_institucion = i.id_institucion
+                                    GROUP BY ins.id_institucion, ins.institucion
+                                    ORDER BY cantidad_investigador DESC");
         $sth->execute();
         if ($sth->rowCount() > 0) {
             $data = $sth->fetchAll(PDO::FETCH_ASSOC);
@@ -112,6 +175,10 @@ class Institucion extends Sistema {
         } else {
             return null;
         }
+    }
+
+    function esBase64($logotipo){
+        return strpos($logotipo, 'data:image/') === 0;
     }
 }
 ?>

@@ -4,9 +4,20 @@
       <?php foreach ($instituciones as $institucion) : ?>
       <div class="col-md-4">
         <div class="card h-100 text-center">
-          <img src="img/institucion/<?php echo $institucion['logotipo'];?>" class="card-img-top rounded-circle mx-auto mt-3" style="width:120px;height:120px;object-fit:cover;" alt="Miembro 1">
+          <?php 
+            $logotipo = $institucion['logotipo'];
+            if (strpos($logotipo, 'data:image/') === 0) {
+                $srcImagen = $logotipo;
+            } else {
+                $srcImagen = "img/institucion/" . $logotipo;
+            }
+          ?>
+          <img src="<?php echo $srcImagen; ?>" 
+               class="card-img-top rounded-circle mx-auto mt-3" 
+               style="width:120px;height:120px;object-fit:cover;" 
+               alt="<?php echo htmlspecialchars($institucion['institucion']); ?>">
           <div class="card-body">
-            <h5 class="card-title"> <?php echo $institucion['institucion']; ?> </h5>
+            <h5 class="card-title"><?php echo htmlspecialchars($institucion['institucion']); ?></h5>
           </div>
         </div>
       </div>
